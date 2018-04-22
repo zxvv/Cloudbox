@@ -1,0 +1,42 @@
+---
+sudo: required
+dist: xenial
+
+language: python
+python:
+  - "2.7"
+  - "3.5"
+
+env:
+  - ANSIBLE_VERSION=latest
+  - ANSIBLE_VERSION=2.5.0
+  - ANSIBLE_VERSION=2.3.1.0
+
+branches:
+only:
+  - master
+  - develop
+
+before_install:
+
+  # Disable IPv6
+  - grep -q -F 'net.ipv6.conf.all.disable_ipv6 = 1' /etc/sysctl.d/99-sysctl.conf || sudo echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.d/99-sysctl.conf
+  - grep -q -F 'net.ipv6.conf.default.disable_ipv6 = 1' /etc/sysctl.d/99-sysctl.conf || sudo echo 'net.ipv6.conf.default.disable_ipv6 = 1' >> /etc/sysctl.d/99-sysctl.conf
+  - grep -q -F 'net.ipv6.conf.lo.disable_ipv6 = 1' /etc/sysctl.d/99-sysctl.conf || sudo echo 'net.ipv6.conf.lo.disable_ipv6 = 1' >> /etc/sysctl.d/99-sysctl.conf
+  - sysctl -p
+
+  # APT packages
+  - sudo apt-get update -qq
+  - sudo apt-get install libgnutls28-dev git build-essential python3-dev python3-pip python-dev python-pip
+
+  # PIP packages
+  - sudo python3 -m pip install --upgrade pip setuptools requests pyOpenSSL ansible-lint
+  - sudo python -m pip install --upgrade pip setuptools requests pyOpenSSL ansible-lint
+
+install:
+  # Install Ansible
+  - if [ "$ANSIBLE_VERSION" = "latest" ]; then
+      sudo python -m pip install ansible;
+    else
+      sudo python -m pip install ansible==$ANSIBLE_VERSION;
+    fi
