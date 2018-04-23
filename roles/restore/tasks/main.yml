@@ -127,4 +127,4 @@
   shell: "chown -R {{user}}:{{user}} /opt"
 
 - debug:
-    msg: Finished unarchiving the contents of cloudbox.tar to /opt/, you should now be ready to perform an installation (i.e. Full, Plex, or Feeder)!
+    msg: Finished unarchiving the contents of cloudbox.tar to /opt/, you should now be ready to perform an installation (i.e. fullbox, plexbox, or feederbox)!
