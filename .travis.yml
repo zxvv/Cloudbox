@@ -12,18 +12,16 @@ env:
   - ANSIBLE_VERSION=2.5.0
   - ANSIBLE_VERSION=2.3.1.0
 
-branches:
-only:
-  - master
-  - develop
-
 before_install:
 
-  # Disable IPv6
-  - grep -q -F 'net.ipv6.conf.all.disable_ipv6 = 1' /etc/sysctl.d/99-sysctl.conf || sudo echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.d/99-sysctl.conf
-  - grep -q -F 'net.ipv6.conf.default.disable_ipv6 = 1' /etc/sysctl.d/99-sysctl.conf || sudo echo 'net.ipv6.conf.default.disable_ipv6 = 1' >> /etc/sysctl.d/99-sysctl.conf
-  - grep -q -F 'net.ipv6.conf.lo.disable_ipv6 = 1' /etc/sysctl.d/99-sysctl.conf || sudo echo 'net.ipv6.conf.lo.disable_ipv6 = 1' >> /etc/sysctl.d/99-sysctl.conf
-  - sysctl -p
+  # Remove unnecessary packages from Travis CI
+  - sudo apt-get remove --purge --auto-remove docker-ce
+
+  # # Disable IPv6
+  # - grep -q -F 'net.ipv6.conf.all.disable_ipv6 = 1' /etc/sysctl.d/99-sysctl.conf || sudo echo 'net.ipv6.conf.all.disable_ipv6 = 1' >> /etc/sysctl.d/99-sysctl.conf
+  # - grep -q -F 'net.ipv6.conf.default.disable_ipv6 = 1' /etc/sysctl.d/99-sysctl.conf || sudo echo 'net.ipv6.conf.default.disable_ipv6 = 1' >> /etc/sysctl.d/99-sysctl.conf
+  # - grep -q -F 'net.ipv6.conf.lo.disable_ipv6 = 1' /etc/sysctl.d/99-sysctl.conf || sudo echo 'net.ipv6.conf.lo.disable_ipv6 = 1' >> /etc/sysctl.d/99-sysctl.conf
+  # - sysctl -p
 
   # APT packages
   - sudo apt-get update -qq
@@ -40,3 +38,10 @@ install:
     else
       sudo python -m pip install ansible==$ANSIBLE_VERSION;
     fi
+
+script:
+  # Check Ansible syntax
+  - sudo ansible-playbook cloudbox.yml --syntax-check
+
+  # Run ansible-playbook
+  - sudo ansible-playbook cloudbox.yml --tags all --skip-tags "kernel"
