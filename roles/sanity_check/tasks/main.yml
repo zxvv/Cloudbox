@@ -14,10 +14,17 @@
   when: ansible_kernel | version_compare('4.10', '<')
   tags: always
 
+- name: Getting environment​ variable in Ansible
+  set_fact: travis_var="{{ lookup('env','TRAVIS')| default('') }}"
+
+- name: Getting environment​ variable in Ansible
+  debug: msg="{{travis_var}}"
+
 - name: Ensure a tag was provided
   assert:
     that:
       - tags is defined
+      - {{travis_var}} != "True"
     msg: "You must supply a tag via '--tags OPTION' (e.g. --tags fullbox/plexbox/feederbox/backup/restore)"
 
 - name: "Set Cloudbox Type to \"cloudbox\" (i.e. fullbox)"
