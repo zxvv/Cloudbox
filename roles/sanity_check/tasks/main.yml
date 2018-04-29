@@ -16,9 +16,7 @@
 
 - name: Getting environment​ variable in Ansible
   set_fact: travis_var="{{ lookup('env','TRAVIS')| default('') }}"
-
-- name: Getting environment​ variable in Ansible
-  debug: msg="{{travis_var}}"
+  tags: always
 
 - name: Ensure a tag was provided
   assert:
