@@ -23,8 +23,7 @@
 - name: Ensure a tag was provided
   assert:
     that:
-      - "tags is defined"
-      - "travis_var == 'true'"
+      - "(tags is defined) OR (travis_var == 'true')"
     msg: "You must supply a tag via '--tags OPTION' (e.g. --tags fullbox/plexbox/feederbox/backup/restore)"
 
 - name: "Set Cloudbox Type to \"cloudbox\" (i.e. fullbox)"
