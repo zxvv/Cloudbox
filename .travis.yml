@@ -38,4 +38,4 @@ script:
   - sudo ansible-playbook cloudbox.yml --syntax-check
 
   # Test the playbook.
-  - sudo ansible-playbook cloudbox.yml --tags all --skip-tags "kernel,settings"
+  - sudo ansible-playbook cloudbox.yml --tags all --skip-tags "kernel,settings,plexpy"
