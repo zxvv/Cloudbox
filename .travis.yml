@@ -22,8 +22,8 @@ before_install:
   - sudo apt-get install libgnutls28-dev git build-essential python3-dev python3-pip python-dev python-pip python-netaddr
 
   # PIP packages
-  - sudo python3 -m pip install --upgrade pip setuptools requests pyOpenSSL netaddr ansible-lint
-  - sudo python -m pip install --upgrade pip setuptools requests pyOpenSSL netaddr ansible-lint
+  - sudo python3 -m pip install --upgrade pyOpenSSL pip setuptools requests netaddr ansible-lint
+  - sudo python -m pip install --upgrade pyOpenSSL pip setuptools requests netaddr ansible-lint
 
 install:
   # Install Ansible
