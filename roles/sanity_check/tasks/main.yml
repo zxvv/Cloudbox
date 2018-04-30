@@ -4,16 +4,6 @@
     msg: "System is running {{ ansible_distribution }} {{ ansible_distribution_version }}."
   tags: always
 
-- name: Ensure system is Ubuntu 16.04
-  fail: msg="This playbook is specifically designed for Ubuntu 16.04."
-  when: ansible_distribution_version | version_compare('16.04', '!=')
-  tags: always
-
-- name: Ensure kernel is 4.10 or newer
-  fail: msg="You must be using kernel 4.10.0-32-generic or newer! Use '--tags kernel' to upgrade first!"
-  when: ansible_kernel | version_compare('4.10', '<') and tag is not "kernel"
-  tags: always
-
 - name: Getting environment​ variable in Ansible
   set_fact: ci_var="{{ lookup('env','CI')| default('') }}"
   tags: always
@@ -24,6 +14,16 @@
       - "tags is defined"
     msg: "You must supply a tag via '--tags OPTION' (e.g. --tags fullbox/plexbox/feederbox/backup/restore)"
   when: ci_var != true
+
+- name: Ensure system is Ubuntu 16.04
+  fail: msg="This playbook is specifically designed for Ubuntu 16.04."
+  when: ansible_distribution_version | version_compare('16.04', '!=')
+  tags: always
+
+- name: Ensure kernel is 4.10 or newer
+  fail: msg="You must be using kernel 4.10.0-32-generic or newer! Use '--tags kernel' to upgrade first!"
+  when: ansible_kernel | version_compare('4.10', '<') and tags is not "kernel"
+  tags: always
 
 - name: "Set Cloudbox Type to \"cloudbox\" (i.e. fullbox)"
   set_fact:
