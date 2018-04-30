@@ -21,7 +21,8 @@
   tags: always
 
 - name: Check if kernel tag was supplied
-  set_fact: kernel_tag = true
+  set_fact: 
+    kernel_tag: true
   tags: kernel
 
 - name: Ensure kernel is 4.10 or newer
