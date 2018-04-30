@@ -12,8 +12,8 @@ init:
   - sh: curl -s https://cloudbox.rocks/install_dependencies.sh | sudo sh -s 
 
 install:
-  - sh: sudo ansible-playbook cloudbox/cloudbox.yml --syntax-check
-  - sh: sudo ansible-playbook cloudbox/cloudbox.yml --tags all --skip-tags "kernel,settings,plexpy"
+  - sh: sudo ansible-playbook /home/appveyor/projects/cloudbox/cloudbox.yml --syntax-check
+  - sh: sudo ansible-playbook /home/appveyor/projects/cloudbox/cloudbox.yml --tags all --skip-tags "kernel,settings,plexpy"
 
 matrix:
   fast_finish: true
