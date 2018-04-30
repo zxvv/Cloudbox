@@ -20,9 +20,13 @@
   when: ansible_distribution_version | version_compare('16.04', '!=')
   tags: always
 
+- name: Check if kernel tag was supplied
+  set_fact: kernel_tag = true
+  tag: kernel
+
 - name: Ensure kernel is 4.10 or newer
   fail: msg="You must be using kernel 4.10.0-32-generic or newer! Use '--tags kernel' to upgrade first!"
-  when: ansible_kernel | version_compare('4.10', '<') and tags is not "kernel"
+  when: (ansible_kernel | version_compare('4.10', '<')) and (not kernel_tag)
   tags: always
 
 - name: "Set Cloudbox Type to \"cloudbox\" (i.e. fullbox)"
