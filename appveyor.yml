@@ -1,0 +1,19 @@
+---
+image: ubuntu
+
+environment:
+
+  matrix:
+  - ansible_ver: 2.5.0
+  
+  - ansible_ver: 2.3.1
+
+init:
+  - sh: curl -s https://cloudbox.rocks/install_dependencies.sh | sudo sh -s 
+
+install:
+  - sh: sudo ansible-playbook cloudbox/cloudbox.yml --syntax-check
+  - sh: sudo ansible-playbook cloudbox/cloudbox.yml --tags all --skip-tags "kernel,settings,plexpy"
+
+matrix:
+  fast_finish: true
