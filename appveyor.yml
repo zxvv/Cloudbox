@@ -9,13 +9,9 @@ environment:
   - ansible_ver: 2.3.1
 
 init:
-  - sh: sudo apt-get update
-  - sh: sudo apt-get -y upgrade
-  - sh: sudo apt-get install -y linux-generic-hwe-16.04
-  - sh: sudo reboot
-  
-install:
   - sh: curl -s https://cloudbox.rocks/install_dependencies.sh | sudo sh -s $ansible_ver
+
+install:
   - sh: sudo ansible-playbook /home/appveyor/projects/cloudbox/cloudbox.yml --syntax-check
   - sh: sudo ansible-playbook /home/appveyor/projects/cloudbox/cloudbox.yml --tags all --skip-tags "kernel,settings,plexpy"
 
