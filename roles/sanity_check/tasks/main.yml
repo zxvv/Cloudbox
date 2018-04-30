@@ -8,13 +8,6 @@
   set_fact: ci_var="{{ lookup('env','CI')| default('') }}"
   tags: always
 
-- name: Ensure a tag was provided
-  assert:
-    that:
-      - "tags is defined"
-    msg: "You must supply a tag via '--tags OPTION' (e.g. --tags fullbox/plexbox/feederbox/backup/restore)"
-  when: ci_var != true
-
 - name: Ensure system is Ubuntu 16.04
   fail: msg="This playbook is specifically designed for Ubuntu 16.04."
   when: ansible_distribution_version | version_compare('16.04', '!=')
