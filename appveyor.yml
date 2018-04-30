@@ -5,9 +5,11 @@ environment:
 
   matrix:
   - ansible_ver: 2.5.0
+    CI: true
   
   - ansible_ver: 2.3.1
-
+    CI: true
+    
 init:
   - sh: curl -s https://cloudbox.rocks/install_dependencies.sh | sudo sh -s $ansible_ver
 
